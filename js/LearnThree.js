@@ -9,7 +9,7 @@ var texture = new THREE.TextureLoader().load('../img/textures/MetalBoxTextures/l
 
 init();
 
-function init(){
+function init() {
     scene = new THREE.Scene();
 
     setupCamera();
@@ -22,7 +22,7 @@ function init(){
     createLights();
     createControls();
 
-    
+
 }
 
 
@@ -77,7 +77,8 @@ var VertexNoise = `
     gl_FragColor.a = 1.;
     }
 `
-function setupShader(){
+
+function setupShader() {
     var shaderMat = new THREE.ShaderMaterial({
         uniforms: uniforms,
         vertexShader: document.getElementById('shader').textContent
@@ -89,9 +90,9 @@ function setupShader(){
 //  setup the renderer
 //  add event listener for window resizing
 
-function setupCamera(){
+function setupCamera() {
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    renderer = new THREE.WebGLRenderer({antialias: 'true'});
+    renderer = new THREE.WebGLRenderer({ antialias: 'true' });
     renderer.setClearColor('#408dbd');
     renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -105,17 +106,21 @@ function setupCamera(){
 
 
 
-function createFloor(){
-    var geometry = new THREE.PlaneGeometry(10, 10, 10, 10);
+function createFloor() {
+    var geometry = new THREE.PlaneGeometry(100, 100, 100, 100);
     var material = new THREE.MeshPhongMaterial({ color: 0xffffff, wireframe: USE_WIREFRAME });
     var floor = new THREE.Mesh(geometry, material);
+
+    floor.position.y -= 5;
+
+
     floor.rotation.x -= Math.PI / 2;
     floor.receiveShadow = true;
     scene.add(floor);
 }
 
-function createControls(){
-    controls = new THREE.TrackballControls( camera );
+function createControls() {
+    controls = new THREE.TrackballControls(camera);
 
     controls.rotateSpeed = 1.0;
     controls.zoomSpeed = 1.2;
@@ -127,12 +132,12 @@ function createControls(){
     controls.staticMoving = true;
     controls.dynamicDampingFactor = 0.3;
 
-    controls.keys = [ 65, 83, 68 ];
+    controls.keys = [65, 83, 68];
 
-    controls.addEventListener( 'change', render );
+    controls.addEventListener('change', render);
 }
 
-function createLights(){
+function createLights() {
     ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
@@ -167,12 +172,12 @@ function Cube() {
 
 function animate() {
     requestAnimationFrame(animate);
-    
+
     controls.update();
     render();
 }
 animate();
 
-function render(){
+function render() {
     renderer.render(scene, camera);
 }
