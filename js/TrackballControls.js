@@ -410,8 +410,8 @@ THREE.TrackballControls = function (object, domElement) {
 
         }
 
-        document.addEventListener('mousemove', mousemove, false);
-        document.addEventListener('mouseup', mouseup, false);
+        document.addEventListener('mousemove', mousemove, { passive: false });
+        document.addEventListener('mouseup', mouseup, { passive: false });
 
         _this.dispatchEvent(startEvent);
 
@@ -597,16 +597,16 @@ THREE.TrackballControls = function (object, domElement) {
 
     };
 
-    this.domElement.addEventListener('contextmenu', contextmenu, false);
-    this.domElement.addEventListener('mousedown', mousedown, false);
-    this.domElement.addEventListener('wheel', mousewheel, false);
+    this.domElement.addEventListener('contextmenu', contextmenu, { passive: false });
+    this.domElement.addEventListener('mousedown', mousedown, { passive: false });
+    this.domElement.addEventListener('wheel', mousewheel, { passive: false });
 
-    this.domElement.addEventListener('touchstart', touchstart, false);
-    this.domElement.addEventListener('touchend', touchend, false);
-    this.domElement.addEventListener('touchmove', touchmove, false);
+    this.domElement.addEventListener('touchstart', touchstart, { passive: false });
+    this.domElement.addEventListener('touchend', touchend, { passive: false });
+    this.domElement.addEventListener('touchmove', touchmove, { passive: false });
 
-    window.addEventListener('keydown', keydown, false);
-    window.addEventListener('keyup', keyup, false);
+    window.addEventListener('keydown', keydown, { passive: false });
+    window.addEventListener('keyup', keyup, { passive: false });
 
     this.handleResize();
 
