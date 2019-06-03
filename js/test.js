@@ -129,21 +129,31 @@ var objects = [];
 var targets = { table: [], sphere: [], helix: [], grid: [] };
 
 
+
 init();
 animate();
 
 document.body.addEventListener('onmouseenter', test)
+
 function test(e) {
     console.log(e.target);
 }
 
 function init() {
-    fetchData();
+    getData();
 
 
     camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.z = 3000;
     scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000); // UPDATED
+
+    //
+    renderer = new THREE.CSS3DRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.background = new THREE.Color(0x000000); // UPDATED
+    document.getElementById('container').appendChild(renderer.domElement);
+    //
 
 
 
@@ -192,13 +202,13 @@ function init() {
         //
         var object = new THREE.Object3D();
         object.position.x = (parseInt(table[i + 3].toString()) * 140) - 1330;
-        object.position.y = - (parseInt(table[i + 4].toString()) * 180) + 990;
+        object.position.y = -(parseInt(table[i + 4].toString()) * 180) + 990;
         targets.table.push(object);
     }
     // sphere
     var vector = new THREE.Vector3();
     for (var i = 0, l = objects.length; i < l; i++) {
-        var phi = Math.acos(- 1 + (2 * i) / l);
+        var phi = Math.acos(-1 + (2 * i) / l);
         var theta = Math.sqrt(l * Math.PI) * phi;
         var object = new THREE.Object3D();
         object.position.setFromSphericalCoords(800, phi, theta);
@@ -210,7 +220,7 @@ function init() {
     var vector = new THREE.Vector3();
     for (var i = 0, l = objects.length; i < l; i++) {
         var theta = i * 0.175 + Math.PI;
-        var y = - (i * 8) + 450;
+        var y = -(i * 8) + 450;
         var object = new THREE.Object3D();
         object.position.setFromCylindricalCoords(900, theta, y);
         vector.x = object.position.x * 2;
@@ -223,15 +233,12 @@ function init() {
     for (var i = 0; i < objects.length; i++) {
         var object = new THREE.Object3D();
         object.position.x = ((i % 5) * 400) - 800;
-        object.position.y = (- (Math.floor(i / 5) % 5) * 400) + 800;
+        object.position.y = (-(Math.floor(i / 5) % 5) * 400) + 800;
         object.position.z = (Math.floor(i / 25)) * 1000 - 2000;
         targets.grid.push(object);
     }
-    //
-    renderer = new THREE.CSS3DRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.getElementById('container').appendChild(renderer.domElement);
-    //
+
+    // Controls
     controls = new THREE.TrackballControls(camera, renderer.domElement);
     controls.minDistance = 500;
     controls.maxDistance = 6000;
@@ -256,6 +263,7 @@ function init() {
     //
     window.addEventListener('resize', onWindowResize, false);
 }
+
 function transform(targets, duration) {
     TWEEN.removeAll();
     for (var i = 0; i < objects.length; i++) {
@@ -275,17 +283,20 @@ function transform(targets, duration) {
         .onUpdate(render)
         .start();
 }
+
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     render();
 }
+
 function animate() {
     requestAnimationFrame(animate);
     TWEEN.update();
     controls.update();
 }
+
 function render() {
     renderer.render(scene, camera);
 }
