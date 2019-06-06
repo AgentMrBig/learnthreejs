@@ -21,6 +21,38 @@ var elementBorder = '1px solid rgba(127,255,255,0.25)';
 //     `
 // }
 
+var elementStyle = `
+    height: 160px;
+    width: 120px;
+    box-shadow: ${elementBoxShadow};
+    border: ${elementBorder};
+    font-family: Helvetica, sans-serif;
+    text-align: center;
+    cursor: default;
+`
+
+var cardStyle = `
+    display: flex;
+    
+    width: 250px;
+    height: 350px;
+    border-radius: 5px;
+    box-shadow: ${elementBoxShadow};
+    border: ${elementBorder};
+    font-family: Helvetica, sans-serif;
+    text-align: center;
+    line-height: normal;
+    cursor: default;
+    
+`
+
+var curExchangeStyle = `
+    border: 1px solid red;
+    height: 50px;
+    width: 100px;
+
+`
+
 var detailsStyle = `
     position: absolute;
     bottom: 15px;
@@ -49,16 +81,7 @@ var numberStyle = `
     color: rgba(127,255,255,0.75);
 `
 
-var elementStyle = `
-    height: 160px;
-    width: 120px;
-    box-shadow: ${elementBoxShadow};
-    border: ${elementBorder};
-    font-family: Helvetica, sans-serif;
-    text-align: center;
-    cursor: default;
-    
-`
+
 function DomStyle() {
 
 
