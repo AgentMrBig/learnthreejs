@@ -16,10 +16,10 @@ var apiData;
 
 // Setup api variables to reduce repeating code
 var apiBase = "Realtime Currency Exchange Rate";
-var apiFromCode = "1. From_currency Code";
-var apiToCode = "3. To_currency Code";
-var apiFromName = "2. From_currency Name";
-var apiToName = "4. From_currency Name";
+var apiFromCode = "1. From_Currency Code";
+var apiToCode = "3. To_Currency Code";
+var apiFromName = "2. From_Currency Name";
+var apiToName = "4. From_Currency Name";
 var apiExchangeRate = "5. Exchange Rate";
 var apiLastRefresh = "6. Last Refreshed";
 var apiTimeZone = "7. Time Zone";
@@ -35,11 +35,11 @@ getData(api5mSingleCandle);
 
 function getData(apiString) {
     fetch(apiString)
-        .then(function (res) {
+        .then(function(res) {
             return res.json();
 
         })
-        .then(function (data) {
+        .then(function(data) {
 
             //console.log(data);
             apiData = data;
@@ -47,9 +47,11 @@ function getData(apiString) {
             //console.log(apiData[apiBase]);
             constructForexDataTable(apiData)
 
-            console.log(exchangeRate)
+            //console.log(exchangeRate)
+            render()
             return data;
         })
+
 
 }
 
@@ -57,6 +59,7 @@ function constructForexDataTable(data) {
     fromCurrencyCode = data[apiBase][apiFromCode];
     fromCurrencyName = data[apiBase][apiFromName];
     exchangeRate = data[apiBase][apiExchangeRate];
+    //console.log(data, exchangeRate);
 
 
 }
@@ -70,8 +73,8 @@ function pushForexDataToTable() {
 // Forex Table
 var forexTable = [
 
-]
-// Data Table
+    ]
+    // Data Table
 var table = [
     "WoW", "DAMN", "WHAA", 2, 1,
     "WTF", "TEST", "abc123", 1, 1,

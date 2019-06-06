@@ -47,9 +47,13 @@ var cardStyle = `
 `
 
 var curExchangeStyle = `
+    align-self: center;
+    align-content: center;
+
     border: 1px solid red;
-    height: 50px;
-    width: 100px;
+    height: 75px;
+    width: 10rem;
+    margin: auto;
 
 `
 
@@ -86,4 +90,3 @@ function DomStyle() {
 
 
 }
-
