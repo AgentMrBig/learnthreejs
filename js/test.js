@@ -9,6 +9,8 @@ var controls;
 var objects = [];
 var targets = { table: [], sphere: [], helix: [], grid: [] };
 
+var panelHome;
+
 
 
 init();
@@ -22,45 +24,84 @@ function test(e) {
 
 function init() {
 
-    console.log(getData(api5mSingleCandle));
-
-
-
-
     camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.z = 3000;
+    camera.position.z = 50;
     scene = new THREE.Scene();
     //scene.background = new THREE.Color(0x000000); // UPDATED
 
+    createRenderer();
+
+    console.log(apiData);
+
+    createPanel();
+    //createGrid(6, 7, 100);
+    setupControls();
+    //transform(targets.grid, 2000);
+    //
+    window.addEventListener('resize', onWindowResize, false);
+}
+
+function createRenderer() {
     //
     renderer = new THREE.CSS3DRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.background = new THREE.Color(0x000000); // UPDATED
     document.getElementById('container').appendChild(renderer.domElement);
     //
+}
 
-    console.log(apiData);
+function createPanel() {
 
+
+    var element = document.createElement('div');
+
+    // elementStyle is defined in DomStyling.js
+    element.style.cssText = cardStyle;
+    element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
+
+    var number = document.createElement('div');
+    number.style.cssText = numberStyle;
+    number.textContent = 'BigTest';
+    element.appendChild(number);
+
+    var curExchange = document.createElement('div');
+    number.style.cssText = curExchangeStyle;
+    number.textContent = exchangeRate;
+    element.appendChild(curExchange);
+
+    var object = new THREE.CSS3DObject(element);
+    object.position.x = 0 //Math.random() * 4000 - 2000;
+    object.position.y = 0 //Math.random() * 4000 - 2000;
+    object.position.z = 0 //Math.random() * 4000 - 2000;
+    scene.add(object);
+    objects.push(object);
+
+    var vector = new THREE.Vector3();
+
+    object.position.x = 0;
+    object.position.y = 0;
+    object.position.z = 0;
+    targets.table.push(object);
+
+
+
+
+}
+
+function createTable() {
     // table
     for (var i = 0; i < table.length; i += 5) {
         var element = document.createElement('div');
-        element.className = 'element';
+
         // elementStyle is defined in DomStyling.js
-        element.style.cssText = elementStyle;
+        element.style.cssText = cardStyle;
         element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
 
-        // var number = document.createElement('div');
-        // number.className = 'number';
-        // // numberStyle is defined in DomStyling.js
-        // number.style.cssText = numberStyle;
-        // number.textContent = ((i / 5) + 1).toString();
-        // element.appendChild(number);
-
         var number = document.createElement('div');
-        //number.className = 'number';
+        number.className = 'number';
         // numberStyle is defined in DomStyling.js
         number.style.cssText = numberStyle;
-        number.textContent = localData[i];
+        number.textContent = ((i / 5) + 1).toString();
         element.appendChild(number);
 
         var symbol = document.createElement('div');
@@ -85,10 +126,13 @@ function init() {
         objects.push(object);
         //
         var object = new THREE.Object3D();
-        object.position.x = (parseInt(table[i + 3].toString()) * 140) - 1330;
+        object.position.x = (parseInt(table[i + 2].toString()) * 140) - 1330;
         object.position.y = -(parseInt(table[i + 4].toString()) * 180) + 990;
         targets.table.push(object);
     }
+}
+
+function createSphere() {
     // sphere
     var vector = new THREE.Vector3();
     for (var i = 0, l = objects.length; i < l; i++) {
@@ -100,6 +144,9 @@ function init() {
         object.lookAt(vector);
         targets.sphere.push(object);
     }
+}
+
+function createHelix() {
     // helix
     var vector = new THREE.Vector3();
     for (var i = 0, l = objects.length; i < l; i++) {
@@ -113,18 +160,27 @@ function init() {
         object.lookAt(vector);
         targets.helix.push(object);
     }
+}
+
+// createGrid(number of x columns, number of rows, z layers(experament) )
+// function to take in a collection of data, mapping each data item into 
+// a Object3D, then position that object, then on to next data point.
+function createGrid(xCols, yRows, zMod) {
     // grid
     for (var i = 0; i < objects.length; i++) {
         var object = new THREE.Object3D();
-        object.position.x = ((i % 5) * 400) - 800;
-        object.position.y = (-(Math.floor(i / 5) % 5) * 400) + 800;
-        object.position.z = (Math.floor(i / 25)) * 1000 - 2000;
+        object.position.x = ((i % xCols) * 300) - 800;
+        object.position.y = (-(Math.floor(i / 5) % yRows) * 400) + 800;
+        object.position.z = (Math.floor(i / zMod)) * 500 - 2000;
+        object.id = Math.random() * 300;
         targets.grid.push(object);
     }
+}
 
+function setupControls() {
     // Controls
     controls = new THREE.TrackballControls(camera, renderer.domElement);
-    controls.minDistance = 500;
+    controls.minDistance = 800;
     controls.maxDistance = 6000;
     controls.addEventListener('change', render);
     // var button = document.getElementById('table');
@@ -143,9 +199,6 @@ function init() {
     // button.addEventListener('click', function () {
     //     transform(targets.grid, 2000);
     // }, false);
-    transform(targets.table, 2000);
-    //
-    window.addEventListener('resize', onWindowResize, false);
 }
 
 function transform(targets, duration) {

@@ -31,19 +31,23 @@ var fromCurrencyCode,
     fromCurrencyName,
     toCurrencyCode, toCurrencyName, exchangeRate, lastRefreshed, timeZone, bidPrice, askPrice;
 
+getData(api5mSingleCandle);
+
 function getData(apiString) {
     fetch(apiString)
-        .then(function(res) {
+        .then(function (res) {
             return res.json();
 
         })
-        .then(function(data) {
+        .then(function (data) {
 
             //console.log(data);
             apiData = data;
 
-            console.log(apiData[apiBase]);
+            //console.log(apiData[apiBase]);
             constructForexDataTable(apiData)
+
+            console.log(exchangeRate)
             return data;
         })
 
@@ -52,6 +56,7 @@ function getData(apiString) {
 function constructForexDataTable(data) {
     fromCurrencyCode = data[apiBase][apiFromCode];
     fromCurrencyName = data[apiBase][apiFromName];
+    exchangeRate = data[apiBase][apiExchangeRate];
 
 
 }
@@ -65,9 +70,10 @@ function pushForexDataToTable() {
 // Forex Table
 var forexTable = [
 
-    ]
-    // Data Table
+]
+// Data Table
 var table = [
+    "WoW", "DAMN", "WHAA", 2, 1,
     "WTF", "TEST", "abc123", 1, 1,
     "HE", "Helium", "4.002602", 18, 1,
     "Li", "Lithium", "6.941", 1, 2,
