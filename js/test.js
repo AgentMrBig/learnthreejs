@@ -31,7 +31,7 @@ function init() {
 
     createRenderer();
 
-    console.log(apiData);
+    //console.log(apiData);
 
     createPanel();
     //createGrid(6, 7, 100);
@@ -61,13 +61,23 @@ function createPanel() {
 
     var number = document.createElement('div');
     number.style.cssText = numberStyle;
-    number.textContent = 'BigTest';
+    number.textContent = 'Forex Data';
     element.appendChild(number);
 
     var curExchange = document.createElement('div');
-    number.style.cssText = curExchangeStyle;
-    number.textContent = exchangeRate;
-    element.appendChild(curExchange);
+    curExchange.style.cssText = curExchangeStyle;
+    if (exchangeRate) {
+        curExchange.textContent = exchangeRate;
+        //console.log(exchangeRate);
+        element.appendChild(curExchange);
+    } else if (!exchangeRate) {
+        setTimeout(function() {
+            curExchange.textContent = exchangeRate;
+            //console.log(exchangeRate);
+            element.appendChild(curExchange);
+        }, 500);
+    }
+
 
     var object = new THREE.CSS3DObject(element);
     object.position.x = 0 //Math.random() * 4000 - 2000;
