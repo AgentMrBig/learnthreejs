@@ -1,4 +1,4 @@
-var localData = [];
+var localApiData = []; // for holding array of objects
 
 const alphaAvantageAPIKey = 'GV0M940C3SCKSOPH';
 var firstSymbol = 'EUR';
@@ -15,6 +15,7 @@ var fullApiString = fullApiString.toString();
 var apiData;
 
 // Setup api variables to reduce repeating code
+var apiMultiBase = "Time Series FX (5min)";
 var apiBase = "Realtime Currency Exchange Rate";
 var apiFromCode = "1. From_Currency Code";
 var apiToCode = "3. To_Currency Code";
@@ -31,7 +32,9 @@ var fromCurrencyCode,
     fromCurrencyName,
     toCurrencyCode, toCurrencyName, exchangeRate, lastRefreshed, timeZone, bidPrice, askPrice;
 
-getData(api5mSingleCandle);
+getData(api5mMultipleCandles);
+
+
 
 function getData(apiString) {
     fetch(apiString)
@@ -44,15 +47,31 @@ function getData(apiString) {
             //console.log(data);
             apiData = data;
 
-            //console.log(apiData[apiBase]);
-            constructForexDataTable(apiData)
+            console.log(apiData);
+            //constructForexDataTable(apiData)
 
             //console.log(exchangeRate)
+            objectsToArray(apiData);
+            console.log(localApiData);
             render()
+                //candlesLoop(apiData);
             return data;
         })
 
 
+}
+
+function objectsToArray(apiData) {
+    console.log(apiData[apiMultiBase]);
+    var data = apiData[apiMultiBase];
+
+    for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+            //console.log(`key ${key}`);
+            //console.log(data[key]);
+            localApiData.push(data[key]);
+        }
+    }
 }
 
 function constructForexDataTable(data) {
@@ -60,9 +79,16 @@ function constructForexDataTable(data) {
     fromCurrencyName = data[apiBase][apiFromName];
     exchangeRate = data[apiBase][apiExchangeRate];
     //console.log(data, exchangeRate);
+}
 
+function candlesLoop(data) {
+    data.forEach((item, index, array) => {
+        console.log(data[index])
+    });
 
 }
+
+
 
 function pushForexDataToTable() {
 
