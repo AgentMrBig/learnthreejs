@@ -33,7 +33,8 @@ function init() {
 
     //console.log(apiData);
 
-    createPanel();
+    //createPanel();
+    createPanels(localApiData);
     //createGrid(6, 7, 100);
     setupControls();
     //transform(targets.grid, 2000);
@@ -50,8 +51,21 @@ function createRenderer() {
     //
 }
 
-function createPanel() {
+function createPanels(data) {
+    var prevX;
+    var tempX = 0;
+    data.forEach((item, index, array) => {
+        console.log('found one')
+        createPanel(tempX, 0, 0)
+        prevX = tempX;
+        tempX + 30;
+    })
+}
 
+// x, y, z of css3dobject
+function createPanel(x, y, z) {
+
+    var myApiData = localApiData;
 
     var element = document.createElement('div');
 
@@ -88,9 +102,9 @@ function createPanel() {
 
     var vector = new THREE.Vector3();
 
-    object.position.x = 0;
-    object.position.y = 0;
-    object.position.z = 0;
+    object.position.x = x;
+    object.position.y = y;
+    object.position.z = z;
     targets.table.push(object);
 
 
