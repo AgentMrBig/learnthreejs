@@ -33,8 +33,8 @@ function init() {
 
     //console.log(apiData);
 
-    //createPanel();
-    createPanels(localApiData);
+    createPanel(0, 0, 0);
+    //createPanels(localApiData);
     //createGrid(6, 7, 100);
     setupControls();
     //transform(targets.grid, 2000);
@@ -260,4 +260,12 @@ function animate() {
 
 function render() {
     renderer.render(scene, camera);
+}
+
+function FxPlay(timeFocus, pair) {
+    var timeFocus;
+    var pair;
+    var exRate;
+    var playStrategy;
+    var riskPercent;
 }
